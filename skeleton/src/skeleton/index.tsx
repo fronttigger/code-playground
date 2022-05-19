@@ -22,36 +22,65 @@ const variants: { [key in VariantType]: SerializedStyles } = {
   rectangular: css``,
 }
 
-const animations: { [key in Exclude<AnimationType, false>]: any } = {
-  pulsate: keyframes`
-    0% {
-      background-color: rgba(227, 227, 227, 0.1);
-    }
-    50% {
-      background-color: rgba(227, 227, 227, 0.8);
-    }
-    100% {
-      background-color: rgba(227, 227, 227, 0.1);
-    }
+const pulsateAnimation = keyframes`
+  0% {
+    background-color: rgba(227, 227, 227);
+  }
+  50% {
+    background-color: rgba(227, 227, 227, 0.6);
+  }
+  100% {
+    background-color: rgba(227, 227, 227);
+  }
+`
+
+const waveAnimation = keyframes`
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+`
+
+const animations: {
+  [key in Exclude<AnimationType, false>]: SerializedStyles
+} = {
+  pulsate: css`
+    animation: ${pulsateAnimation} 1.5s ease-in-out 0.5s infinite;
   `,
-  wave: keyframes`
-    to {
-      background-position: 100% 0;
+  wave: css`
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      transform: translateX(-100%);
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0, 0, 0, 0.07),
+        transparent
+      );
+      animation: ${waveAnimation} 1.5s ease-in-out 0.5s infinite;
     }
   `,
 }
 
 const Container = styled.div<SkeletonProps>`
-  background-color: #e3e3e3;
+  background-color: rgba(227, 227, 227);
 
   ${({ width }) => width && `width: ${width}`};
   ${({ height }) => height && `height: ${height}`};
   ${({ variant }) => variant && variants[variant]};
-  ${({ animation }) =>
-    animation &&
-    css`
-      animation: ${animations[animation]} 1.5s ease-in-out 0.5s infinite;
-    `}
+  ${({ animation }) => animation && animations[animation]}
 `
 
 function Skeleton({
