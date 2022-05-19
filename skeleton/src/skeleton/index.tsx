@@ -34,7 +34,11 @@ const animations: { [key in Exclude<AnimationType, false>]: any } = {
       background-color: rgba(227, 227, 227, 0.1);
     }
   `,
-  wave: keyframes``,
+  wave: keyframes`
+    to {
+      background-position: 100% 0;
+    }
+  `,
 }
 
 const Container = styled.div<SkeletonProps>`

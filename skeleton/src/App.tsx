@@ -8,7 +8,7 @@ function App() {
     <div className='App'>
       <header className='App-header'>
         <div style={{ width: 210, height: 118 }}>
-          <Skeleton variant='text' animation='wave' />
+          <Skeleton variant='text' />
         </div>
       </header>
     </div>
