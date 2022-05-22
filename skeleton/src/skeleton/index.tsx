@@ -2,6 +2,9 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { css, keyframes, SerializedStyles } from '@emotion/react'
 
+const BASE_BACKGROUND_COLOR = 'rgba(227, 227, 227)'
+const WAVE_BACKGROUND_COLOR = 'rgba(0, 0, 0, 0.07)'
+
 type VariantType = 'text' | 'circular' | 'rectangular'
 type AnimationType = 'pulsate' | 'wave' | false
 
@@ -10,6 +13,9 @@ interface SkeletonProps {
   width?: string
   height?: string
   animation?: AnimationType
+  animationSpeed?: number
+  backgroundColor?: string
+  waveColor?: string
 }
 
 const variants: { [key in VariantType]: SerializedStyles } = {
@@ -22,15 +28,16 @@ const variants: { [key in VariantType]: SerializedStyles } = {
   rectangular: css``,
 }
 
-const pulsateAnimation = keyframes`
+const getPulsateAnimation = (backgroundColor?: string) => keyframes`
   0% {
-    background-color: rgba(227, 227, 227);
+    background-color: ${backgroundColor};
   }
   50% {
-    background-color: rgba(227, 227, 227, 0.6);
+    background-color: ${backgroundColor};
+    opacity: 0.6;
   }
   100% {
-    background-color: rgba(227, 227, 227);
+    background-color: ${backgroundColor}
   }
 `
 
@@ -43,58 +50,98 @@ const waveAnimation = keyframes`
   }
 `
 
-const animations: {
-  [key in Exclude<AnimationType, false>]: SerializedStyles
-} = {
-  pulsate: css`
-    animation: ${pulsateAnimation} 1.5s ease-in-out 0.5s infinite;
-  `,
-  wave: css`
-    position: relative;
-    overflow: hidden;
-
-    &::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      transform: translateX(-100%);
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(0, 0, 0, 0.07),
-        transparent
-      );
-      animation: ${waveAnimation} 1.5s ease-in-out 0.5s infinite;
+function getBackgroundAnimation(
+  animationType?: AnimationType,
+  animationSpeed?: number,
+  backgroundColor?: string,
+  waveColor?: string
+): SerializedStyles {
+  switch (animationType) {
+    case 'pulsate':
+    default: {
+      return css`
+        animation: ${getPulsateAnimation(backgroundColor)}
+          ${`${animationSpeed}s`} ease-in-out 0.5s infinite;
+      `
     }
-  `,
+    case 'wave': {
+      return css`
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          transform: translateX(-100%);
+          background: linear-gradient(
+            90deg,
+            transparent,
+            ${waveColor},
+            transparent
+          );
+          animation: ${waveAnimation} ${`${animationSpeed}s`} ease-in-out 0.5s
+            infinite;
+        }
+      `
+    }
+    case false: {
+      return css``
+    }
+  }
 }
 
 const Container = styled.div<SkeletonProps>`
-  background-color: rgba(227, 227, 227);
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  background-color: ${({ backgroundColor }) => backgroundColor};
 
-  ${({ width }) => width && `width: ${width}`};
-  ${({ height }) => height && `height: ${height}`};
-  ${({ variant }) => variant && variants[variant]};
-  ${({ animation }) => animation && animations[animation]}
+  ${({ variant }) => variants[variant || 'text']};
+  ${({ animation, animationSpeed, backgroundColor, waveColor }) =>
+    getBackgroundAnimation(
+      animation,
+      animationSpeed,
+      backgroundColor,
+      waveColor
+    )};
 `
 
+/**
+ * @description
+ * 데이터가 로드되기 전 컨텐츠를 표시하는 UI
+ *
+ * @returns JSX.Element
+ *
+ * @example
+ * import { Skeleton } from '@copiest/ui'
+ *
+ * function Component() {
+ *    return <Skeleton variant='circular' animation='wave' />
+ * }
+ */
 function Skeleton({
   variant = 'text',
   width = '100%',
   height = '100%',
   animation = 'pulsate',
-}: SkeletonProps) {
+  animationSpeed = 1.5,
+  backgroundColor = BASE_BACKGROUND_COLOR,
+  waveColor = WAVE_BACKGROUND_COLOR,
+}: SkeletonProps): JSX.Element {
   return (
     <Container
       variant={variant}
       width={width}
       height={height}
       animation={animation}
+      animationSpeed={animationSpeed}
+      backgroundColor={backgroundColor}
+      waveColor={waveColor}
     />
   )
 }
