@@ -1,33 +1,47 @@
-// 네트워크 요청을 취소
-// 1. 너무 오래 걸린다.
-// 2. 클라이언트가 다른 작업을 진행한다.
-// 3. 개발단에서 특정 시간 이후 다른 요청을 하기 위해 임의로 취소한다.
-
 const FETCH_URL = 'https://jsonplaceholder.typicode.com/posts'
 
 const $ = (selector) => document.querySelector(selector)
 
-// abortController
-const abortController = new AbortController()
-const { signal } = abortController
+let abortController = null
 
 document.addEventListener('DOMContentLoaded', () => {
   $('.fetch-button').addEventListener('click', getPostsData)
 })
 
 async function getPostsData() {
+  // AbortController 할당
+  abortController = new AbortController()
+  // abortSignal 선언
+  const { signal } = abortController
+
   const timer = setTimeout(() => {
+    // 특정 ms 이후 요청을 수동으로 취소
     abortController.abort()
     console.log('abort')
-  }, 1000)
+  }, 100)
 
   try {
+    // fetch API에 signal 선언
     const response = await fetch(FETCH_URL, { signal })
-    const data = await response.json()
-    clearTimeout(timer)
+    const posts = await response.json()
 
-    return data
+    drawPosts(posts)
   } catch (error) {
     alert(error)
+    exception()
+  } finally {
+    clearTimeout(timer)
+    abortController = null
   }
+}
+
+function drawPosts(posts) {
+  $('.list').innerHTML = posts
+    .slice(0, 20)
+    .map((post) => `<li>${post.title}</li>`)
+    .join('')
+}
+
+function exception() {
+  $('.list').innerHTML = '다시 요청해주세요'
 }

@@ -4,14 +4,14 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Hello from './Hello'
+import Getout from './Getout'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path='/' element={<App />} />
-      <Route path='/hello' element={<Hello />} />
+      <Route path='/getout' element={<Getout />} />
     </Routes>
   </BrowserRouter>
 )
