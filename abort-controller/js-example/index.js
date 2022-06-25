@@ -26,8 +26,6 @@ async function getPostsData() {
     const data = await response.json()
     clearTimeout(timer)
 
-    console.log('data', data)
-
     return data
   } catch (error) {
     alert(error)
