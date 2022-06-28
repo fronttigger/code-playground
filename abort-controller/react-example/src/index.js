@@ -5,12 +5,14 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Getout from './Getout'
+import Live from './Live'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path='/' element={<App />} />
+      {/* <Route path='/' element={<Live />} /> */}
       <Route path='/getout' element={<Getout />} />
     </Routes>
   </BrowserRouter>
