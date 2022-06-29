@@ -1,0 +1,38 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "화장품",
+      "price": 10000,
+      "thumbnail": ""
+    },
+    {
+      "id": 2,
+      "name": "선풍기",
+      "price": 5000,
+      "thumbnail": ""
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "nickname": "관리자",
+      "email": "admin@gmail.com",
+      "password": "$2a$10$9jNq8hPvRA7AhXUh0itce.ei7Z9Ynv81HgapvnQpqGRLbJFRSz9mu",
+      "basket": [
+        {
+          "id": 1,
+          "name": "화장품",
+          "price": 10000,
+          "count": 1
+        },
+        {
+          "id": 2,
+          "name": "선풍기",
+          "price": 5000,
+          "count": 2
+        }
+      ]
+    }
+  ]
+}

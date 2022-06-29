@@ -1,0 +1,16 @@
+{
+  "name": "mini-commerce",
+  "version": "1.0.0",
+  "description": "commerce project",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "db": "json-server --watch db.json --port 8080",
+    "db:auth": "json-server db.json -m ./node_modules/json-server-auth --port 3000"
+  },
+  "dependencies": {
+    "json-server": "^0.17.0",
+    "json-server-auth": "^2.1.0",
+    "parcel": "^2.6.2"
+  }
+}
