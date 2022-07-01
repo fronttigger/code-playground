@@ -3,7 +3,6 @@ class App {
     this.$target = $target
     this.state = {
       isLoggedIn: Boolean(localStorage.getItem('Authorization')), // 로그인 여부
-      items: [], // 장바구니
     }
 
     this.render()
