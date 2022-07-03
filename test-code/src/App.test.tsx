@@ -8,6 +8,7 @@ test('renders todos', async () => {
   render(<App />)
 
   const listitems = await screen.findAllByRole('listitem')
+
   expect(listitems).toHaveLength(3)
 
   userEvent.type(screen.getByRole('textbox'), '공부하기')
