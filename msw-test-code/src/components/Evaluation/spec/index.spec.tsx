@@ -1,6 +1,5 @@
 import { screen, render } from '@testing-library/react'
 
-import { getReview } from './api'
 import Evaluation from '../index'
 
 describe('Evaluation', () => {
@@ -24,8 +23,6 @@ describe('Evaluation', () => {
 
   test('type을 review로 하고 후기 갯수를 200개 선언하면 후기 갯수 200개가 포함된 컴포넌트가 렌더링된다.', async () => {
     render(<Evaluation type='review' rating={5} commentCount={200} />)
-
-    await getReview()
 
     const evaluationReviewTextElement = screen.getByText('후기')
     const evaluationReviewCountElement = await screen.findByText('200')
