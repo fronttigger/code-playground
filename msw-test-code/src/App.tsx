@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Evaluation from './components/Evaluation'
+import { getReview } from './components/Evaluation/spec/api'
 
 function App() {
   const [review, setReview] = useState<{
@@ -8,21 +9,21 @@ function App() {
   }>()
 
   useEffect(() => {
-    fetch('/review')
-      .then((res) => res.json())
-      .then((data) => {
-        setReview(data)
-      })
+    async function getReviewData() {
+      const reviewData = await getReview()
+
+      setReview(reviewData)
+    }
+
+    getReviewData()
   }, [])
 
   return (
-    <div>
-      <Evaluation
-        type='average-review'
-        rating={review?.rating}
-        commentCount={review?.commentCount}
-      />
-    </div>
+    <Evaluation
+      type='average-review'
+      rating={review?.rating}
+      commentCount={review?.commentCount}
+    />
   )
 }
 

@@ -1,4 +1,3 @@
-import EvaluationItem from './evaluationItem'
 import EvaluationGroup from './evaluationGroup'
 import { EvaluationProps } from './type'
 import {
@@ -25,59 +24,19 @@ import {
  * @returns JSX.Element
  */
 function Evaluation({
-  type = 'none',
-  size = 'medium',
   rating = 0.0,
   commentCount = 0,
 }: EvaluationProps): JSX.Element {
-  switch (type) {
-    case 'review': {
-      return (
-        <Container>
-          <EvaluationGroup size={size} rating={rating} />
-          <EvaluationReviewContainer>
-            <EvaluationReviewRatingText size={size}>
-              후기
-            </EvaluationReviewRatingText>
-            <EvaluationReviewCount size={size}>
-              {commentCount}
-            </EvaluationReviewCount>
-          </EvaluationReviewContainer>
-        </Container>
-      )
-    }
-    case 'average': {
-      return (
-        <Container>
-          <EvaluationGroup size={size} rating={rating} />
-          <EvaluationAverage size={size}>{rating.toFixed(1)}</EvaluationAverage>
-        </Container>
-      )
-    }
-    case 'average-review': {
-      return (
-        <Container>
-          <EvaluationGroup size={size} rating={rating} />
-          <EvaluationAverage size={size}>{rating.toFixed(1)}</EvaluationAverage>
-          <EvaluationReviewContainer>
-            <EvaluationReviewRatingText size={size}>
-              후기
-            </EvaluationReviewRatingText>
-            <EvaluationReviewCount size={size}>
-              {commentCount}
-            </EvaluationReviewCount>
-          </EvaluationReviewContainer>
-        </Container>
-      )
-    }
-    default:
-    case 'none': {
-      return <EvaluationGroup size={size} rating={rating} />
-    }
-  }
+  return (
+    <Container>
+      <EvaluationGroup rating={rating} />
+      <EvaluationAverage>{rating.toFixed(1)}</EvaluationAverage>
+      <EvaluationReviewContainer>
+        <EvaluationReviewRatingText>후기</EvaluationReviewRatingText>
+        <EvaluationReviewCount>{commentCount}</EvaluationReviewCount>
+      </EvaluationReviewContainer>
+    </Container>
+  )
 }
-
-Evaluation.EvaluationItem = EvaluationItem
-Evaluation.EvaluationGroup = EvaluationGroup
 
 export default Evaluation

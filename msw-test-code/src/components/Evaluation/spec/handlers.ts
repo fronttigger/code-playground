@@ -5,7 +5,7 @@ const review = {
   commentCount: 200,
 }
 
-const getReview = (isError?: boolean) => {
+export const getReview = (isError?: boolean) => {
   return rest.get('/review', (_, res, ctx) => {
     if (isError) {
       return res(ctx.status(500))

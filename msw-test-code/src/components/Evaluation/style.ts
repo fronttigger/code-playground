@@ -98,22 +98,23 @@ function getEvaluationAverageStyle(size: SizeType): FlattenSimpleInterpolation {
 
 export const EvaluationReviewContainer = styled.div`
   display: flex;
-  margin-bottom: 2px;
+
+  margin-left: 4px;
 `
 
-export const EvaluationReviewRatingText = styled.span<{ size: SizeType }>`
+export const EvaluationReviewRatingText = styled.span<{ size?: SizeType }>`
   font-weight: 600;
 
   ${({ size }) => size && getEvaluationReviewTextStyle(size)}
 `
 
-export const EvaluationReviewCount = styled.strong<{ size: SizeType }>`
+export const EvaluationReviewCount = styled.strong<{ size?: SizeType }>`
   font-weight: 600;
 
   ${({ size }) => size && getEvaluationReviewCountStyle(size)}
 `
 
-export const EvaluationAverage = styled.strong<{ size: SizeType }>`
+export const EvaluationAverage = styled.strong<{ size?: SizeType }>`
   font-weight: 700;
 
   ${({ size }) => size && getEvaluationAverageStyle(size)}

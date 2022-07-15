@@ -1,3 +1,3 @@
-import evaluationHandler from '../components/Evaluation/spec/handlers'
+import reviewHandlers from '../components/Evaluation/spec/handlers'
 
-export const handlers = [...Object.values(evaluationHandler)]
+export const handlers = [...Object.values(reviewHandlers)]
