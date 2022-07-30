@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import throttle from '../utils/throttle'
+
 const FETCH_TODO_URL = 'http://localhost:8000/todos'
 const FETCH_MORE_COUNT = 10
 
@@ -38,9 +40,13 @@ function Todos() {
   }, [limit])
 
   useEffect(() => {
-    window.addEventListener('scroll', () => {
-      handleTodosFetch()
-    })
+    window.addEventListener(
+      'scroll',
+      throttle(() => {
+        console.log('발생')
+        // handleTodosFetch()
+      })
+    )
   }, [])
 
   return (
