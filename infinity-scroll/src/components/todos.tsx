@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 
-import throttle from '../utils/throttle'
 import throttleByrAF from '../utils/throttleByrAF'
 
 const FETCH_TODO_URL = 'http://localhost:8000/todos'
@@ -17,37 +16,33 @@ function Todos() {
   const [todos, setTodos] = useState<Todo[]>([])
   const [limit, setLimit] = useState(FETCH_MORE_COUNT)
 
-  const getTodos = async () => {
-    const response = await fetch(`${FETCH_TODO_URL}/?_limit=${limit}`)
-    const data = await response.json()
-
-    setTodos(data)
-  }
-
-  const handleTodosFetch = () => {
+  const handleTodosFetch = throttleByrAF(() => {
     const 현_화면의_높이 = window.innerHeight
     const 총_스크롤한_높이 = document.documentElement.scrollTop
     const 전체_화면_높이 = document.documentElement.offsetHeight
 
+    // MEMO: 화면 최하단에 닿으면 조건문 내의 블럭 반응
     if (현_화면의_높이 + 총_스크롤한_높이 >= 전체_화면_높이) {
-      setLimit((limit) => (limit += FETCH_MORE_COUNT))
+      setLimit((limit) => (limit += FETCH_MORE_COUNT)) // 현재 컨텐츠 갯수에 10개씩 추가
     }
-  }
+  })
 
   useEffect(() => {
-    getTodos()
+    const getTodos = async () => {
+      const response = await fetch(`${FETCH_TODO_URL}/?_limit=${limit}`) // API Fetch
+      const data = await response.json()
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      setTodos(data)
+    }
+
+    getTodos()
   }, [limit])
 
   useEffect(() => {
-    window.addEventListener(
-      'scroll',
-      throttleByrAF(() => {
-        console.log('발생')
-        // handleTodosFetch()
-      })
-    )
+    window.addEventListener('scroll', handleTodosFetch, { passive: true })
+
+    return () =>
+      window.addEventListener('scroll', handleTodosFetch, { passive: true })
   }, [])
 
   return (
