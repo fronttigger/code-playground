@@ -14,7 +14,7 @@ function List({ todos }: ListProps) {
       {todos.map((todo) => (
         <li key={todo.id}>
           <span>{todo.title}</span>
-          <input type='checkbox' checked={todo.isDone} />
+          <input type='checkbox' checked={todo.isDone} onChange={() => {}} />
         </li>
       ))}
     </ul>

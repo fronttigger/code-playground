@@ -37,5 +37,17 @@ describe('TODO', () => {
 
       expect($todo).toBeInTheDocument()
     })
+
+    test('데이터가 있다면 TODO 내용을 노출한다.', async () => {
+      mockApi.get('http://localhost:8888/todos', [
+        { id: 0, title: '테스트 공부하기', isDone: false },
+      ])
+
+      render(<App />, { wrapper: createWrapper() })
+
+      const $todo = await screen.findByText(/테스트 공부하기/i)
+
+      expect($todo).toBeInTheDocument()
+    })
   })
 })

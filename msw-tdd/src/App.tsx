@@ -3,8 +3,12 @@ import List from './components/List'
 import { getTodos } from './remotes/todos'
 
 function App() {
-  const { data: todos = [] } = useQuery(['http://localhost:8888/todos'], () =>
-    getTodos()
+  const { data: todos = [] } = useQuery(
+    ['http://localhost:8888/todos'],
+    () => getTodos(),
+    {
+      suspense: true,
+    }
   )
 
   return <List todos={todos} />
