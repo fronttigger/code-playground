@@ -5,6 +5,10 @@ interface ListProps {
 }
 
 function List({ todos }: ListProps) {
+  if (todos.length === 0) {
+    return <div>할 일 없음</div>
+  }
+
   return (
     <ul>
       {todos.map((todo) => (
