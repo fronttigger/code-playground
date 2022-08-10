@@ -49,5 +49,18 @@ describe('TODO', () => {
 
       expect($todo).toBeInTheDocument()
     })
+
+    test('isDone이 false인 TODO는 체크가 되어있지 않다.', async () => {
+      mockApi.get('http://localhost:8888/todos', [
+        { id: 0, title: '테스트 공부하기', isDone: false },
+      ])
+
+      render(<App />, { wrapper: createWrapper() })
+
+      const $checkbox = await screen.findByRole('checkbox')
+
+      expect($checkbox).toBeInTheDocument()
+      expect($checkbox).not.toBeChecked()
+    })
   })
 })
