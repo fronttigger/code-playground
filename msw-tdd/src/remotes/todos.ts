@@ -1,9 +1,13 @@
 import axios, { AxiosResponse } from 'axios'
 
-import { Todo } from '../model/todo'
+import { Todo } from '../models/todo'
 
-export const getResult = <T>(response: AxiosResponse<T>) => response.data
+const getResult = <T>(response: AxiosResponse<T>) => response.data
 
 export const getTodos = () => {
   return axios.get<Todo[]>('http://localhost:8888/todos').then(getResult)
+}
+
+export const updateDone = (todo: Todo) => {
+  return axios.put(`http://localhost:8888/todos/${todo.id}`, todo)
 }

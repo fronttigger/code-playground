@@ -1,10 +1,12 @@
-import { Todo } from '../model/todo'
+import { Todo } from '../models/todo'
 
-interface ListProps {
+function List({
+  todos,
+  onUpdateDone,
+}: {
   todos: Todo[]
-}
-
-function List({ todos }: ListProps) {
+  onUpdateDone: (todo: Todo) => void
+}) {
   if (todos.length === 0) {
     return <div>할 일 없음</div>
   }
@@ -14,7 +16,16 @@ function List({ todos }: ListProps) {
       {todos.map((todo) => (
         <li key={todo.id}>
           <span>{todo.title}</span>
-          <input type='checkbox' checked={todo.isDone} onChange={() => {}} />
+          <input
+            type='checkbox'
+            checked={todo.isDone}
+            onChange={() =>
+              onUpdateDone({
+                ...todo,
+                isDone: !todo.isDone,
+              })
+            }
+          />
         </li>
       ))}
     </ul>
