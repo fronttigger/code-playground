@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+
+import Dialog from './components/Dialog'
 
 function App() {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleDialogClose = () => {
+    setIsOpen(false)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <button onClick={() => setIsOpen(!isOpen)}>Dialog 오픈</button>
+      <Dialog
+        isOpen={isOpen}
+        title='타이틀'
+        buttonLabel='버튼 레이블'
+        onClose={handleDialogClose}
+        onButtonClick={() => {}}
+      />
+    </>
+  )
 }
 
-export default App;
+export default App
