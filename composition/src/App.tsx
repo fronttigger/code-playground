@@ -20,6 +20,7 @@ function App() {
         onButtonClick={() => {}}
       >
         <Dialog.Title>안녕하세요!!</Dialog.Title>
+        <Dialog.Description>저는 김준형입니다.</Dialog.Description>
       </Dialog>
     </>
   )
