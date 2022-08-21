@@ -92,6 +92,7 @@ describe('TODO', () => {
       <List
         todos={[{ id: 0, title: '테스트 공부하기', isDone: false }]}
         onUpdateDone={updateDone}
+        onDeleteTodo={() => {}}
       />,
       { wrapper: createWrapper() }
     )
@@ -105,5 +106,24 @@ describe('TODO', () => {
       title: '테스트 공부하기',
       isDone: true,
     })
+  })
+
+  test('삭제 버튼이 눌리면 클릭된 Todo의 id를 가지고 삭제 함수를 호출한다.', async () => {
+    const deleteTodo = jest.fn()
+
+    render(
+      <List
+        todos={[{ id: 0, title: '테스트 공부하기', isDone: false }]}
+        onUpdateDone={() => {}}
+        onDeleteTodo={deleteTodo}
+      />,
+      { wrapper: createWrapper() }
+    )
+
+    const $button = await screen.findByRole('button', { name: '삭제' })
+
+    userEvent.click($button)
+
+    expect(deleteTodo).toBeCalledWith(0)
   })
 })

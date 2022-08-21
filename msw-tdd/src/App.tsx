@@ -4,7 +4,7 @@ import { useMutation, useQuery } from 'react-query'
 import './App.css'
 import List from './components/List'
 import { Todo } from './models/todo'
-import { getTodos, updateDone } from './remotes/todos'
+import { deleteTodo, getTodos, updateDone } from './remotes/todos'
 
 function App() {
   const { data: todos = [] } = useQuery(
@@ -19,7 +19,17 @@ function App() {
     updateDone(todo)
   )
 
-  return <List todos={todos} onUpdateDone={updateDoneMutation} />
+  const { mutate: deleteTodoMutation } = useMutation((todoId: number) =>
+    deleteTodo(todoId)
+  )
+
+  return (
+    <List
+      todos={todos}
+      onUpdateDone={updateDoneMutation}
+      onDeleteTodo={deleteTodoMutation}
+    />
+  )
 }
 
 export default App

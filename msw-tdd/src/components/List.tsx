@@ -3,9 +3,11 @@ import { Todo } from '../models/todo'
 function List({
   todos,
   onUpdateDone,
+  onDeleteTodo,
 }: {
   todos: Todo[]
   onUpdateDone: (todo: Todo) => void
+  onDeleteTodo: (todoId: number) => void
 }) {
   if (todos.length === 0) {
     return <div>할 일 없음</div>
@@ -26,6 +28,7 @@ function List({
               })
             }
           />
+          <button onClick={() => onDeleteTodo(todo.id)}>삭제</button>
         </li>
       ))}
     </ul>
