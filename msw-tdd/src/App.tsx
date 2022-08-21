@@ -2,9 +2,10 @@ import React from 'react'
 import { useMutation, useQuery } from 'react-query'
 
 import './App.css'
+import Header from './components/Header'
 import List from './components/List'
 import { Todo } from './models/todo'
-import { deleteTodo, getTodos, updateDone } from './remotes/todos'
+import { deleteTodo, getTodos, updateDone, postTodo } from './remotes/todos'
 
 function App() {
   const { data: todos = [] } = useQuery(
@@ -23,12 +24,19 @@ function App() {
     deleteTodo(todoId)
   )
 
+  const { mutate: addTodoMutation, isLoading: 추가중인가 } = useMutation(
+    (todo: Omit<Todo, 'id'>) => postTodo(todo)
+  )
+
   return (
-    <List
-      todos={todos}
-      onUpdateDone={updateDoneMutation}
-      onDeleteTodo={deleteTodoMutation}
-    />
+    <>
+      <Header onAddTodo={addTodoMutation} isSubmitting={추가중인가} />
+      <List
+        todos={todos}
+        onUpdateDone={updateDoneMutation}
+        onDeleteTodo={deleteTodoMutation}
+      />
+    </>
   )
 }
 

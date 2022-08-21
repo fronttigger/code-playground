@@ -8,6 +8,7 @@ import userEvent from '@testing-library/user-event'
 
 import App from './App'
 import List from './components/List'
+import Header from './components/Header'
 
 const queryClient = new QueryClient({})
 const mockServer = setupServer()
@@ -125,5 +126,38 @@ describe('TODO', () => {
     userEvent.click($button)
 
     expect(deleteTodo).toBeCalledWith(0)
+  })
+
+  test('텍스트가 비어있거나 제출 중이라면 submit 버튼이 동작하지 않는다.', async () => {
+    const onAddTodo = jest.fn()
+
+    render(<Header isSubmitting={true} onAddTodo={onAddTodo} />)
+
+    const $button = await screen.findByRole('button', { name: '추가' })
+
+    userEvent.click($button)
+
+    expect(onAddTodo).not.toBeCalled()
+  })
+
+  test('추가 버튼을 누르게 되면 input에 입력된 값을 가지고 추가될 Todo의 값을 가지고 새로운 Todo를 만든다.', async () => {
+    const onAddTodo = jest.fn()
+
+    render(<Header isSubmitting={false} onAddTodo={onAddTodo} />)
+
+    const $input = await screen.findByRole('textbox')
+
+    userEvent.type($input, '테스트 공부하기')
+
+    const $button = await screen.findByRole('button', { name: '추가' })
+
+    expect($button).not.toBeDisabled()
+
+    userEvent.click($button)
+
+    expect(onAddTodo).toBeCalledWith({
+      title: '테스트 공부하기',
+      isDone: false,
+    })
   })
 })

@@ -15,3 +15,10 @@ export const updateDone = (todo: Todo) => {
 export const deleteTodo = (todoId: number) => {
   return axios.delete(`http://localhost:8888/todos/${todoId}`)
 }
+
+export const postTodo = (todo: Omit<Todo, 'id'>) => {
+  return axios.post<{ success: boolean; todos: Todo[] }>(
+    `http://localhost:8888/todos`,
+    todo
+  )
+}
