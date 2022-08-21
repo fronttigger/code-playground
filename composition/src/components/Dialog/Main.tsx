@@ -1,3 +1,4 @@
+import { PropsWithChildren } from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 
@@ -20,7 +21,6 @@ const DialogContent = styled.div`
 
   width: 300px;
   height: 500px;
-  padding: 40px;
 
   text-align: center;
 
@@ -41,9 +41,10 @@ function Dialog({
   isOpen,
   title,
   buttonLabel,
+  children,
   onClose,
   onButtonClick,
-}: DialogProps) {
+}: PropsWithChildren<DialogProps>) {
   if (!isOpen) {
     return null
   }
@@ -52,7 +53,7 @@ function Dialog({
     <div>
       <DialogDimmed onClick={onClose} />
       <DialogContent>
-        <span>{title}</span>
+        {children}
         <button onClick={onButtonClick}>{buttonLabel}</button>
       </DialogContent>
     </div>,

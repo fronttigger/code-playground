@@ -18,7 +18,9 @@ function App() {
         buttonLabel='버튼 레이블'
         onClose={handleDialogClose}
         onButtonClick={() => {}}
-      />
+      >
+        <Dialog.Title>안녕하세요!!</Dialog.Title>
+      </Dialog>
     </>
   )
 }
