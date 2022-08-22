@@ -25,6 +25,19 @@ const createWrapper =
     )
   }
 
+const navigate = jest.fn()
+const useNavigate = () => navigate
+
+jest.mock('react-router-dom', () => {
+  const origin = jest.requireActual('react-router-dom')
+
+  return {
+    __esModule: true,
+    ...origin,
+    useNavigate,
+  }
+})
+
 beforeAll(() => {
   mockServer.listen()
 })
@@ -38,6 +51,10 @@ describe('TODO', () => {
   })
 
   describe('List', () => {
+    it('snapshot', () => {
+      expect(render(<App />, { wrapper: createWrapper() })).toMatchSnapshot()
+    })
+
     test('리스트가 비어있다면 할 일 없음이 노출된다.', async () => {
       mockServer.use(
         rest.get('http://localhost:8888/todos', (_, res, ctx) => {
@@ -159,5 +176,22 @@ describe('TODO', () => {
       title: '테스트 공부하기',
       isDone: false,
     })
+  })
+
+  test('Todo의 상세보기 버튼을 클릭하면 해당 Todo의 상세 페이지로 이동한다.', async () => {
+    render(
+      <List
+        todos={[{ id: 0, title: '테스트 공부하기', isDone: false }]}
+        onDeleteTodo={() => {}}
+        onUpdateDone={() => {}}
+      />,
+      { wrapper: createWrapper() }
+    )
+
+    const $button = await screen.findByRole('button', { name: '상세보기' })
+
+    userEvent.click($button)
+
+    expect(navigate).toBeCalledWith('/todos/0')
   })
 })
