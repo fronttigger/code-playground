@@ -51,10 +51,6 @@ describe('TODO', () => {
   })
 
   describe('List', () => {
-    it('snapshot', () => {
-      expect(render(<App />, { wrapper: createWrapper() })).toMatchSnapshot()
-    })
-
     test('리스트가 비어있다면 할 일 없음이 노출된다.', async () => {
       mockServer.use(
         rest.get('http://localhost:8888/todos', (_, res, ctx) => {
@@ -134,8 +130,7 @@ describe('TODO', () => {
         todos={[{ id: 0, title: '테스트 공부하기', isDone: false }]}
         onUpdateDone={() => {}}
         onDeleteTodo={deleteTodo}
-      />,
-      { wrapper: createWrapper() }
+      />
     )
 
     const $button = await screen.findByRole('button', { name: '삭제' })
@@ -146,21 +141,21 @@ describe('TODO', () => {
   })
 
   test('텍스트가 비어있거나 제출 중이라면 submit 버튼이 동작하지 않는다.', async () => {
-    const onAddTodo = jest.fn()
+    const addTodo = jest.fn()
 
-    render(<Header isSubmitting={true} onAddTodo={onAddTodo} />)
+    render(<Header isSubmitting={false} onAddTodo={addTodo} />)
 
     const $button = await screen.findByRole('button', { name: '추가' })
 
     userEvent.click($button)
 
-    expect(onAddTodo).not.toBeCalled()
+    expect(addTodo).not.toBeCalled()
   })
 
   test('추가 버튼을 누르게 되면 input에 입력된 값을 가지고 추가될 Todo의 값을 가지고 새로운 Todo를 만든다.', async () => {
-    const onAddTodo = jest.fn()
+    const addTodo = jest.fn()
 
-    render(<Header isSubmitting={false} onAddTodo={onAddTodo} />)
+    render(<Header isSubmitting={false} onAddTodo={addTodo} />)
 
     const $input = await screen.findByRole('textbox')
 
@@ -168,11 +163,9 @@ describe('TODO', () => {
 
     const $button = await screen.findByRole('button', { name: '추가' })
 
-    expect($button).not.toBeDisabled()
-
     userEvent.click($button)
 
-    expect(onAddTodo).toBeCalledWith({
+    expect(addTodo).toBeCalledWith({
       title: '테스트 공부하기',
       isDone: false,
     })
@@ -182,10 +175,9 @@ describe('TODO', () => {
     render(
       <List
         todos={[{ id: 0, title: '테스트 공부하기', isDone: false }]}
-        onDeleteTodo={() => {}}
         onUpdateDone={() => {}}
-      />,
-      { wrapper: createWrapper() }
+        onDeleteTodo={() => {}}
+      />
     )
 
     const $button = await screen.findByRole('button', { name: '상세보기' })
@@ -193,5 +185,9 @@ describe('TODO', () => {
     userEvent.click($button)
 
     expect(navigate).toBeCalledWith('/todos/0')
+  })
+
+  test('TodoList UI 변경', () => {
+    expect(render(<App />, { wrapper: createWrapper() })).toMatchSnapshot()
   })
 })

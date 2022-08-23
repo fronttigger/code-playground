@@ -5,7 +5,7 @@ import './App.css'
 import Header from './components/Header'
 import List from './components/List'
 import { Todo } from './models/todo'
-import { deleteTodo, getTodos, updateDone, postTodo } from './remotes/todos'
+import { postTodo, deleteTodo, getTodos, updateDone } from './remotes/todos'
 
 function App() {
   const { data: todos = [] } = useQuery(
@@ -30,7 +30,7 @@ function App() {
 
   return (
     <>
-      <Header onAddTodo={addTodoMutation} isSubmitting={추가중인가} />
+      <Header isSubmitting={추가중인가} onAddTodo={addTodoMutation} />
       <List
         todos={todos}
         onUpdateDone={updateDoneMutation}
