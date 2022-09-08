@@ -13,7 +13,7 @@ export function useUpdateDone() {
   const queryClient = useQueryClient()
 
   return useMutation((todo: Todo) => updateDone(todo), {
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries(['@todos'])
     },
   })

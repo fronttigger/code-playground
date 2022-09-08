@@ -5,6 +5,7 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { RecoilRoot } from 'recoil'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import ErrorBoundary from './components/ErrorBoundary'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,7 +21,9 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
         <Suspense fallback={<div>안녕!?</div>}>
-          <App />
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
         </Suspense>
       </RecoilRoot>
     </QueryClientProvider>
