@@ -1,42 +1,111 @@
-import { Component, ErrorInfo, ReactNode } from 'react'
+import {
+  Component,
+  ComponentType,
+  ErrorInfo,
+  FunctionComponent,
+  isValidElement,
+  PropsWithChildren,
+  ReactElement,
+} from 'react'
 
-interface Props {
-  children?: ReactNode
+const isChangedArray = (prevArray: unknown[] = [], nextArray: unknown[] = []) =>
+  prevArray.length !== nextArray.length ||
+  prevArray.some((item, index) => !Object.is(item, nextArray[index]))
+
+interface FallbackComponentProps {
+  error: Error
+  resetErrorBoundary: (...args: unknown[]) => void
 }
 
-interface State {
-  hasError: boolean
+interface ErrorBoundaryBaseProps {
+  resetKeys?: unknown[]
+  onReset?: (...args: unknown[]) => void
+  onError?: (error: Error, info: { componentStack: string }) => void
 }
+
+interface ErrorBoundaryPropsWithFallback extends ErrorBoundaryBaseProps {
+  fallback: ReactElement<
+    unknown,
+    string | FunctionComponent | typeof Component
+  > | null
+  FallbackComponent?: never
+}
+
+interface ErrorBoundaryPropsWithComponent extends ErrorBoundaryBaseProps {
+  fallback?: never
+  FallbackComponent: ComponentType<FallbackComponentProps>
+}
+
+type ErrorBoundaryProps =
+  | ErrorBoundaryPropsWithFallback
+  | ErrorBoundaryPropsWithComponent
+
+type ErrorBoundaryState = { error: Error | null }
+
+const initialState: ErrorBoundaryState = { error: null }
 
 // ErrorBoundary 내에서 발생하는 에러는 ErrorBoundary 대상이 아님
-class ErrorBoundary extends Component<Props, State> {
-  state: State = {
-    hasError: false,
+class ErrorBoundary extends Component<
+  PropsWithChildren<ErrorBoundaryProps>,
+  ErrorBoundaryState
+> {
+  state = initialState
+
+  resetErrorBoundary = (...args: unknown[]) => {
+    this.props.onReset?.(...args)
+    this.reset()
   }
 
-  static getDerivedStateFromError(_: Error): State {
-    // fallback UI가 보이도록 state 최신화
-    return { hasError: true }
+  reset() {
+    this.setState(initialState)
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // 에러 로그 수집
-    console.error('error:', error, errorInfo)
-    console.error('errorInfo:', errorInfo)
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    // fallback UI가 보이도록 error 최신화
+    return { error }
+  }
+
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    // MEMO: error, info Logging
+    this.props.onError?.(error, info)
+  }
+
+  componentDidUpdate(
+    prevProps: ErrorBoundaryProps,
+    prevState: ErrorBoundaryState
+  ) {
+    const { error } = this.state
+    const { resetKeys } = this.props
+
+    if (
+      error !== null &&
+      prevState.error !== null &&
+      isChangedArray(prevProps.resetKeys, resetKeys)
+    ) {
+      this.reset()
+    }
   }
 
   render() {
-    if (this.state.hasError) {
-      // fallback UI 처리
-      return (
-        <h1
-          style={{ whiteSpace: 'pre-line' }}
-        >{`에러입니다. \n다시 새로고침 해주세요`}</h1>
-      )
+    const { error } = this.state
+    const { fallback, FallbackComponent, children } = this.props
+
+    if (error !== null) {
+      const props = {
+        error,
+        resetErrorBoundary: this.resetErrorBoundary,
+      }
+
+      if (isValidElement(fallback)) {
+        return fallback
+      } else if (FallbackComponent) {
+        return <FallbackComponent {...props} />
+      }
     }
 
-    return this.props.children
+    return children
   }
 }
 
-export default ErrorBoundary
+export { ErrorBoundary }
+export type { FallbackComponentProps, ErrorBoundaryProps }
