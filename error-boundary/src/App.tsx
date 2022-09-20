@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './App.css'
 
 import {
@@ -18,12 +19,16 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackComponentProps) {
 }
 
 function App() {
+  const [isBoolean, setIsBoolean] = useState(false)
+
   return (
     <div className='App'>
       <Header />
+      <button onClick={() => setIsBoolean((prev) => !prev)}>버튼</button>
       <ErrorBoundary
         FallbackComponent={ErrorFallback}
-        onReset={props => console.log('props', props)}
+        onReset={(props) => console.log('props', props)}
+        resetKeys={[isBoolean]}
       >
         <Posts />
       </ErrorBoundary>
