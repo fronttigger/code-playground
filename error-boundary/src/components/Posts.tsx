@@ -16,7 +16,7 @@ function Posts() {
 
   return (
     <ul>
-      {data?.map(post => (
+      {data?.map((post) => (
         <li style={{ cursor: 'pointer' }} key={post.id} onClick={throwError}>
           {post.title}
         </li>

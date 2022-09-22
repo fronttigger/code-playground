@@ -11,9 +11,9 @@ import Posts from './components/Posts'
 function ErrorFallback({ error, resetErrorBoundary }: FallbackComponentProps) {
   return (
     <div role='alert'>
-      <p>Something went wrong:</p>
+      <p>에러 발생!!</p>
       <pre>{error.message}</pre>
-      <button onClick={() => resetErrorBoundary(['props'])}>Try again</button>
+      <button onClick={resetErrorBoundary}>재시도</button>
     </div>
   )
 }
@@ -24,12 +24,8 @@ function App() {
   return (
     <div className='App'>
       <Header />
-      <button onClick={() => setIsBoolean((prev) => !prev)}>버튼</button>
-      <ErrorBoundary
-        FallbackComponent={ErrorFallback}
-        onReset={(props) => console.log('props', props)}
-        resetKeys={[isBoolean]}
-      >
+      <button onClick={() => setIsBoolean((prev) => !prev)}>상태변경</button>
+      <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[isBoolean]}>
         <Posts />
       </ErrorBoundary>
     </div>
