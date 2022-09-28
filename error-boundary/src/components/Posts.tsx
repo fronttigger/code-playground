@@ -8,7 +8,7 @@ function Posts() {
   // 이벤트 핸들러는 ErrorBoundary의 대상이 아님
   const throwError = () => {
     try {
-      throw new Error('박살!')
+      throw new Error('에러 발생!')
     } catch (err) {
       console.error(err)
     }
