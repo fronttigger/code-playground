@@ -15,12 +15,12 @@ function renderProduct(product) {
 
 document.querySelector('#selector').addEventListener('change', handleChange)
 
-async function getProduct(id) {
-  const res = await fetch(`https://api.escuelajs.co/api/v1/products/${id}`)
-  const json = await res.json()
+const fetchJson = (url) => fetch(url).then((res) => res.json())
 
-  return json
-}
+const fetchProduct = (id) =>
+  fetchJson(`https://api.escuelajs.co/api/v1/products/${id}`)
+
+const getProduct = (id) => fetchProduct(id)
 
 async function handleChange(e) {
   const id = e.target.value
