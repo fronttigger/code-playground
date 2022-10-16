@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import axios from 'axios'
+import useErrorBoundary from '../../hooks/useErrorBoundary'
 
 interface ProductProps {
   id: string
@@ -8,14 +9,16 @@ interface ProductProps {
 
 function Product({ id }: ProductProps) {
   const [product, setProduct] = useState<any>()
+  const throwError = useErrorBoundary()
 
   useEffect(() => {
     ;(async function getProduct() {
       axios
         .get(`https://api.escuelajs.co/api/v1/products/${id}`)
         .then((res) => setProduct(res.data))
+        .catch((error) => throwError(error))
     })()
-  }, [id])
+  }, [id, throwError])
 
   return (
     <div>
