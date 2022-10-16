@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import ErrorBoundary from './components/ErrorBoundary'
 
 import Product from './components/Product'
 
@@ -17,7 +18,9 @@ function App() {
         <option value='6'>6</option>
         <option value='error'>error</option>
       </select>
-      <Product id={productId} />
+      <ErrorBoundary>
+        <Product id={productId} />
+      </ErrorBoundary>
     </div>
   )
 }
