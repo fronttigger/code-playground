@@ -24,11 +24,11 @@ function Product({ id }: ProductProps) {
     <div>
       {product && (
         <>
-          <p>{product.title}</p>
-          <p>{product.price}</p>
-          <p>{product.description}</p>
+          <p>{product?.title}</p>
+          <p>{product?.price}</p>
+          <p>{product?.description}</p>
           <p>
-            <img src={product.images[0]} style={{ width: 300 }} alt='' />
+            <img src={product?.images[0]} style={{ width: 300 }} alt='' />
           </p>
         </>
       )}
