@@ -21,8 +21,9 @@ function App() {
           caseBy={{
             a: <div>a</div>,
             b: <div>b</div>,
+            c: <div>c</div>,
           }}
-          defaultComponent={<div>a</div>}
+          defaultComponent={<div>default</div>}
         />
       </header>
     </div>
