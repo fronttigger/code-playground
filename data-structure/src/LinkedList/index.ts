@@ -16,6 +16,25 @@ class LinkedList<T> {
     this.size = 0
   }
 
+  // 모든 데이터를 출력
+  printAll() {
+    let currentNode = this.head
+    let printText = '['
+
+    while (currentNode !== null) {
+      printText += currentNode?.data
+      currentNode = currentNode?.next
+
+      if (currentNode !== null) {
+        printText += ', '
+      }
+    }
+
+    printText += ']'
+
+    console.log(printText)
+  }
+
   // 특정 인덱스에 데이터를 삽입
   insertAt(index: number, data: T) {
     // 예외 처리
