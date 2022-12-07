@@ -61,4 +61,21 @@ describe('LinkedList', () => {
       })
     })
   })
+
+  describe('clear', () => {
+    test('2개가 있는 연결리스트를 clear 함수를 호출하게 되면 데이터가 초기화된다.', () => {
+      const linkedList = new LinkedList()
+
+      linkedList.insertLast('데이터1')
+      linkedList.insertLast('데이터2')
+
+      expect(linkedList.head).not.toBeNull()
+      expect(linkedList.size).toEqual(2)
+
+      linkedList.clear()
+
+      expect(linkedList.head).toBeNull()
+      expect(linkedList.size).toEqual(0)
+    })
+  })
 })

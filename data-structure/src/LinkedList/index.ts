@@ -35,6 +35,12 @@ class LinkedList<T> {
     console.log(printText)
   }
 
+  // 모든 데이터를 제거
+  clear() {
+    this.head = null
+    this.size = 0
+  }
+
   // 특정 인덱스에 데이터를 삽입
   insertAt(index: number, data: T) {
     // 예외 처리
