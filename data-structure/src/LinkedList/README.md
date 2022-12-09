@@ -22,4 +22,4 @@
 
 6. deleteLast() (마지막 삭제)
 
-7. getNodeAt (인덱스 읽기)
+7. getNodeAt(index) (인덱스 조회)

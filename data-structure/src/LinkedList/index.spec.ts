@@ -112,4 +112,25 @@ describe('LinkedList', () => {
       expect(linkedList.size).toEqual(1)
     })
   })
+
+  describe('getNodeAt', () => {
+    test('조회할 데이터가 없는 인덱스는 에러를 반환한다.', () => {
+      const linkedList = new LinkedList()
+
+      expect(() => linkedList.getNodeAt(0)).toThrowError(
+        new Error('조회할 인덱스가 없습니다.')
+      )
+    })
+
+    test('2개가 있는 연결리스트의 데이터를 삭제하면 1개가 남는다.', () => {
+      const linkedList = new LinkedList()
+
+      linkedList.insertLast('데이터1')
+      linkedList.insertLast('데이터2')
+
+      const node = linkedList.getNodeAt(1)
+
+      expect(node?.data).toEqual('데이터2')
+    })
+  })
 })

@@ -119,8 +119,24 @@ class LinkedList<T> {
     }
   }
 
+  // 마지막 노드를 삭제
   deleteLast() {
     this.deleteAt(this.size - 1)
+  }
+
+  // 특정 인덱스에 있는 노드 조회
+  getNodeAt(index: number) {
+    if (index >= this.size || index < 0) {
+      throw new Error('조회할 인덱스가 없습니다.')
+    }
+
+    let currentNode = this.head
+
+    for (let i = 0; i < index; i += 1) {
+      currentNode = currentNode?.next
+    }
+
+    return currentNode
   }
 }
 
