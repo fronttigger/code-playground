@@ -118,6 +118,10 @@ class LinkedList<T> {
       this.size -= 1
     }
   }
+
+  deleteLast() {
+    this.deleteAt(this.size - 1)
+  }
 }
 
 export default LinkedList
