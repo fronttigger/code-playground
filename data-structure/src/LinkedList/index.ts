@@ -96,6 +96,28 @@ class LinkedList<T> {
 
     this.size += 1
   }
+
+  // 특정 인덱스에 있는 노드를 삭제
+  deleteAt(index: number) {
+    // 예외 처리
+    if (index > this.size || index < 0) {
+      throw new Error('삭제하려는 인덱스가 없습니다.')
+    }
+
+    let currentNode = this.head
+
+    if (index === 0) {
+      this.head = this.head?.next
+      this.size -= 1
+    } else {
+      for (let i = 0; i < index - 1; i += 1) {
+        currentNode = currentNode?.next
+      }
+
+      currentNode!.next = currentNode?.next?.next
+      this.size -= 1
+    }
+  }
 }
 
 export default LinkedList

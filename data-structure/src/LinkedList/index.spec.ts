@@ -78,4 +78,25 @@ describe('LinkedList', () => {
       expect(linkedList.size).toEqual(0)
     })
   })
+
+  describe('deleteAt', () => {
+    test('입력한 인덱스가 없는 연결리스트는 에러를 반환한다.', () => {
+      const linkedList = new LinkedList()
+
+      expect(() => linkedList.deleteAt(2)).toThrowError(
+        new Error('삭제하려는 인덱스가 없습니다.')
+      )
+    })
+
+    test('2개가 있는 연결리스트의 마지막 인덱스 데이터를 삭제하면 1개가 남는다.', () => {
+      const linkedList = new LinkedList()
+
+      linkedList.insertLast('데이터1')
+      linkedList.insertLast('데이터2')
+
+      linkedList.deleteAt(0)
+
+      expect(linkedList.size).toEqual(1)
+    })
+  })
 })
