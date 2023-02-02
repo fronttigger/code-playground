@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useState } from 'react';
 
 import Button from './compnents/Button';
 
@@ -12,9 +13,12 @@ const Wrapper = styled.div`
 `;
 
 function App() {
+  const [toggle, setToggle] = useState(false);
+
   return (
     <Wrapper>
-      <Button delay={2000}>Delay Button</Button>
+      <button onClick={() => setToggle((state) => !state)}>dd</button>
+      {toggle && <Button delay={2000}>Delay Button</Button>}
     </Wrapper>
   );
 }
