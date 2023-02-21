@@ -7,7 +7,7 @@ on:
 
 jobs:
   tag-with-comment:
-    if: github.event.issue.state == 'open' && github.event.issue.pull_request && contains(github.event.comment.html_url, '/test')
+    if: github.event.issue.state == 'open' && github.event.issue.pull_request && contains(github.event.comment.body, '/test')
     runs-on: ubuntu-latest
 
     env:
