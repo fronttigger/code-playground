@@ -1,9 +1,9 @@
-import { ButtonHTMLAttributes, PropsWithChildren, useState } from 'react';
+import { ButtonHTMLAttributes, PropsWithChildren, useState } from 'react'
 
-import styled from '@emotion/styled';
-import { keyframes } from '@emotion/css';
+import styled from '@emotion/styled'
+import { keyframes } from '@emotion/react'
 
-import { useTimeout } from '../hooks/useTimeout';
+import { useTimeout } from '../hooks/useTimeout'
 
 const fillKeyframe = keyframes`
   0% {
@@ -13,7 +13,7 @@ const fillKeyframe = keyframes`
   100% {
     transform: translateX(0%);
   }
-`;
+`
 
 const ButtonEl = styled.button<{ isDelaying: boolean }>`
   position: relative;
@@ -23,7 +23,7 @@ const ButtonEl = styled.button<{ isDelaying: boolean }>`
   overflow: hidden;
   background: ${({ isDelaying }) => (isDelaying ? '#dfe3ec' : '#FF5447')};
   cursor: ${({ isDelaying }) => (isDelaying ? 'not-allowed' : ' pointer')};
-`;
+`
 
 const Delay = styled.div<{ delay: number }>`
   position: absolute;
@@ -36,7 +36,7 @@ const Delay = styled.div<{ delay: number }>`
   animation-name: ${fillKeyframe};
   animation-duration: ${({ delay }) => delay}ms;
   animation-timing-function: linear;
-`;
+`
 
 const Text = styled.span`
   position: relative;
@@ -44,25 +44,25 @@ const Text = styled.span`
   font-weight: 600;
   line-height: 24px;
   color: #ffffff;
-`;
+`
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  delay?: number;
+  delay?: number
 }
 
 function Button({ children, delay = 0 }: PropsWithChildren<ButtonProps>) {
-  const [isDelaying, setIsDelaying] = useState(!!delay);
+  const [isDelaying, setIsDelaying] = useState(!!delay)
 
   useTimeout(() => {
-    setIsDelaying(false);
-  }, delay);
+    setIsDelaying(false)
+  }, delay)
 
   return (
     <ButtonEl isDelaying={isDelaying}>
       {isDelaying && <Delay delay={delay} />}
       <Text>{children}</Text>
     </ButtonEl>
-  );
+  )
 }
 
-export default Button;
+export default Button

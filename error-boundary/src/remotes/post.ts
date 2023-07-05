@@ -7,7 +7,7 @@ export interface Post {
   body: string
 }
 
-const FETCH_URL = 'https://jsonplaceholder.typicode.com/posts/1'
+const FETCH_URL = 'https://jsonplaceholder.typicode.com/posts/'
 
 const getResults = <T>(response: AxiosResponse<T>) => response.data
 

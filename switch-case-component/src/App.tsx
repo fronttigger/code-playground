@@ -10,7 +10,7 @@ function App() {
       <header className='App-header'>
         <select
           value={switchCase}
-          onChange={e => setSwitchCase(e.target.value)}
+          onChange={(e) => setSwitchCase(e.target.value)}
         >
           <option value='a'>a</option>
           <option value='b'>b</option>

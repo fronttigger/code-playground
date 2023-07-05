@@ -1,9 +1,9 @@
 // import { useState } from 'react'
 import './App.css'
 
-// import { ErrorBoundary } from './components/ErrorBoundary'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import ErrorBoudaryBasic from './components/ErrorBoundaryBasic'
-// import ErrorFallback from './components/ErrorFallback'
+import ErrorFallback from './components/ErrorFallback'
 import Header from './components/Header'
 import Posts from './components/Posts'
 
@@ -14,12 +14,12 @@ function App() {
     <div className='App'>
       <Header />
       {/* <button onClick={() => setIsBoolean((prev) => !prev)}>상태변경</button> */}
-      <ErrorBoudaryBasic>
+      {/* <ErrorBoudaryBasic>
         <Posts />
-      </ErrorBoudaryBasic>
-      {/* <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[isBoolean]}>
+      </ErrorBoudaryBasic> */}
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Posts />
-      </ErrorBoundary> */}
+      </ErrorBoundary>
     </div>
   )
 }
